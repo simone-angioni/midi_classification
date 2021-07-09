@@ -1,5 +1,8 @@
-from transformer_classifier import TransformerClassifier
-from utils import *
+#import transformer_classifier as tc
+#import utils
+from .transformer_classifier_colab import TransformerClassifier
+from .utils import *
+import numpy as np
 import tensorflow as tf
 import logging
 

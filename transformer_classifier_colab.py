@@ -1,5 +1,5 @@
-from transformer_block import TransformerBlock
-from token_and_position_embedding import TokenAndPositionEmbedding
+from .transformer_block import TransformerBlock
+from .token_and_position_embedding import TokenAndPositionEmbedding
 from sklearn.metrics import f1_score, accuracy_score
 
 from tensorflow import keras
