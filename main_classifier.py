@@ -3,7 +3,7 @@ from utils import *
 import tensorflow as tf
 import logging
 
-logging.basicConfig(filename='./logs/test_accuracy_base.log',format='%(asctime)s : %(message)s')
+logging.basicConfig(filename='./results/test_accuracy_base.log',format='%(asctime)s : %(message)s')
 try:
     physical_devices = tf.config.list_physical_devices('GPU')
     tf.config.experimental.set_memory_growth(physical_devices[0], enable=True)
@@ -43,7 +43,7 @@ for k in range(num_folds):
     model.fit(x_train, x_test, y_train, y_test)
     accuracies.append(model.model.evaluate(x_test, y_test))
 
-print(accuracies)
+logging.warning(accuracies)
 
 # Choosing whether training or testing the model
 # model.fit(x_train, x_test, y_train, y_test)
