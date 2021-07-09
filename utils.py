@@ -600,14 +600,50 @@ def generate_piano_roll(model, example, gen_len=250, single_column=False, attent
 
     return to_return, original_song
 
+def extract_standard_feature(piano_roll, sample_len, file):
+    curr_X, curr_y = [], []
+    for i in range(int(len(piano_roll) / sample_len)):
+        curr_sample = piano_roll[(i * sample_len):((i + 1) * sample_len)]
+        curr_label = assign_label(file)
+        curr_X.append(curr_sample)
+        curr_y.append(curr_label)
+    return curr_X, curr_y
+
+def walk_forward_feature_engineering(piano_roll, sample_len, file):
+    curr_X, curr_y = [], []
+    for i in range(0, len(piano_roll)-sample_len):
+        curr_sample = piano_roll[i:i + sample_len]
+        curr_label = assign_label(file)
+        curr_X.append(curr_sample)
+        curr_y.append(curr_label)
+    return curr_X, curr_y
+
+def full_standard_feature_engineering(piano_roll, sample_len, file):
+    curr_X, curr_y = [], []
+    for i in range(int(len(piano_roll) / sample_len)):
+        #print(f"Slicing item in piano from from {i*sample_len} to {(i+1)*sample_len}")
+        curr_sample = piano_roll[(i * sample_len):((i + 1) * sample_len)]
+        curr_label = assign_label(file)
+        curr_X.append(curr_sample)
+        curr_y.append(curr_label)
+        #print(i, curr_sample)
+    if len(piano_roll) % sample_len != 0:
+        curr_sample = piano_roll[-(sample_len + 1):-1]
+        curr_label = assign_label(file)
+        curr_X.append(curr_sample)
+        curr_y.append(curr_label)
+    return curr_X, curr_y
+
 #this function is used for the features engineering, it allows 3 kind of extraction types:
 # 1) standard -> split the piano roll in len(piano_roll)//sample_len parts and get the sample_len roll for each parts
 # 2) full-standard -> since the standard part will cut the last piece of piano_roll here we include them
 # 3) walk-forward -> we move of one time-frame for cycle and took the window of sample_len next elements
-def extract_features(piano_roll, sample_len, extraction_type="standard"):
+def extract_features(piano_roll, sample_len, file, extraction_type="standard"):
+    curr_X, curr_y = [], []
     if extraction_type == "standard":
-        pass
+        curr_X, curr_y = extract_standard_feature(piano_roll, sample_len, file)
     elif extraction_type == "walk-forward":
-        pass
+        curr_X, curr_y = walk_forward_feature_engineering(piano_roll, sample_len, file)
     elif extraction_type == "full-standard":
-        pass
+        curr_X, curr_y = full_standard_feature_engineering(piano_roll, sample_len, file)
+    return curr_X, curr_y
