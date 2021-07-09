@@ -189,7 +189,7 @@ def assign_label(file_name):
         return 4
 
 # Function used for loading the classifier training and test set
-def load_clf_data_kfold(sample_len, fs, k=10):
+def load_clf_data_kfold(sample_len, fs, k=10, feature_extraction = "standard"):
 
     # Declaring test and train sets
     folds_X, folds_y = [], []
@@ -244,11 +244,14 @@ def load_clf_data_kfold(sample_len, fs, k=10):
                 piano_roll.append(chord_dict[chord])
 
             # Adding each sample of the song to the training or test set
-            for i in range(int(len(piano_roll) / sample_len)):
-                curr_sample = piano_roll[(i * sample_len):((i + 1) * sample_len)]
-                curr_label = assign_label(file)
-                curr_X.append(curr_sample)
-                curr_y.append(curr_label)
+            temp_X, temp_y = extract_features(piano_roll, sample_len, file, feature_extraction)
+            curr_X.extend(temp_X)
+            curr_y.extend(temp_y)
+            # for i in range(int(len(piano_roll) / sample_len)):
+            #     curr_sample = piano_roll[(i * sample_len):((i + 1) * sample_len)]
+            #     curr_label = assign_label(file)
+            #     curr_X.append(curr_sample)
+            #     curr_y.append(curr_label)
 
         # Converting into arrays the data
         curr_X, curr_y = np.array(curr_X), np.array(curr_y)
