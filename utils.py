@@ -228,10 +228,10 @@ def load_clf_data_kfold(sample_len, fs, k=10, feature_extraction = "standard"):
         # Current fold X and y
         curr_X, curr_y = [], []
 
+        print('loading data file fold {}...'.format(j))
         # Iteration over fold j
         for file in folds[j]:
 
-            print('loading data file fold {}...'.format(j))
             filepath = os.path.join('dataset', file)
             midi_data = pretty_midi.PrettyMIDI(os.path.join(base_dir, filepath))
 

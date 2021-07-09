@@ -1,9 +1,9 @@
-from transformer_classifier import TransformerClassifier
-from utils import *
+from .transformer_classifier import TransformerClassifier
+from .utils import *
 import tensorflow as tf
 import logging
 
-logging.basicConfig(filename='./results/test_accuracy_base.log',format='%(asctime)s : %(message)s')
+logging.basicConfig(filename=f'{base_dir}/results/test_accuracy_base.log',format='%(asctime)s : %(message)s')
 def classify(feature_engineering_techniques):
     try:
         physical_devices = tf.config.list_physical_devices('GPU')
