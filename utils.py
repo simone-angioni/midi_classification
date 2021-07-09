@@ -208,7 +208,7 @@ def load_clf_data_kfold(sample_len, fs, k=10, feature_extraction = "standard"):
             file_list.append(file)
             label_distrib[assign_label(file)] += 1
 
-    random.shuffle(file_list)
+    #random.shuffle(file_list)
     print(len(file_list))
     print(label_distrib)
 
@@ -631,10 +631,10 @@ def full_standard_feature_engineering(piano_roll, sample_len, file):
         curr_y.append(curr_label)
         #print(i, curr_sample)
     if len(piano_roll) % sample_len != 0:
-        curr_sample = piano_roll[-(sample_len + 1):-1]
-        curr_label = assign_label(file)
-        curr_X.append(curr_sample)
-        curr_y.append(curr_label)
+        last_sample = piano_roll[-(sample_len + 1):-1]
+        last_label = assign_label(file)
+        curr_X.append(last_sample)
+        curr_y.append(last_label)
     return curr_X, curr_y
 
 #this function is used for the features engineering, it allows 3 kind of extraction types:

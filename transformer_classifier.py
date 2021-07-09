@@ -1,5 +1,7 @@
-from .transformer_block import TransformerBlock
-from .token_and_position_embedding import TokenAndPositionEmbedding
+import transformer_block as tb
+import token_and_position_embedding as tpe
+# from transformer_block import TransformerBlock
+# from token_and_position_embedding import TokenAndPositionEmbedding
 from sklearn.metrics import f1_score, accuracy_score
 
 from tensorflow import keras
@@ -34,9 +36,9 @@ class TransformerClassifier:
     # output = layers.Dense(num_classes, activation='softmax', name='output')(x)
 
     input = layers.Input(shape=input_shape, name='input')
-    embedding_layer = TokenAndPositionEmbedding(maxlen, vocabulary_size, latent_dim)
+    embedding_layer = tpe.TokenAndPositionEmbedding(maxlen, vocabulary_size, latent_dim)
     x = embedding_layer(input)
-    transformer_block = TransformerBlock(latent_dim, num_heads=3, ff_dim=64)
+    transformer_block = tb.TransformerBlock(latent_dim, num_heads=3, ff_dim=64)
     x = transformer_block(x)
     x = layers.GlobalAveragePooling1D()(x)
     x = layers.Dropout(0.2)(x)
