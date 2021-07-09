@@ -31,7 +31,6 @@ with open(os.path.join(base_dir,"lists/gen_list.json"), "r") as fp:
 
 label_lists = adventure + fighting + puzzle + sport + shooting
 
-
 # Function used for loading both the dictionaries
 def load_dictionaries():
 
@@ -55,14 +54,12 @@ def load_dictionaries():
 
     return chord_dict, musical_dict, inverted_dicts[0], inverted_dicts[1]
 
-
 # It gets a midi object and returns a normalized piano roll matrix with values 0 or 1
 def get_normalized_piano_roll_matrix(midi_instance, fs=100):
     normalized_piano_roll_matrix = midi_instance.get_piano_roll(fs=fs)  # Piano roll matrix size: 128 x times.shape[0]
     normalized_piano_roll_matrix[normalized_piano_roll_matrix > 0.] = 1.
 
     return normalized_piano_roll_matrix
-
 
 # It gets a midi object and returns the piano roll matrix with an extra row representing the pause (1 if present)
 def get_paused_piano_roll_matrix(midi_instance, fs=100):
@@ -80,7 +77,6 @@ def get_paused_piano_roll_matrix(midi_instance, fs=100):
 
     return normalized_piano_roll_matrix
 
-
 # It returns a list of arrays, where each array contains a set of indexes of the normalized_piano_roll_matrix
 def compress_piano_roll_matrix(midi_instance, fs=100, pause=False):
 
@@ -96,7 +92,6 @@ def compress_piano_roll_matrix(midi_instance, fs=100, pause=False):
         active_notes.append(np.where(normalized_piano_roll_matrix[:, i] == 1))
 
     return active_notes
-
 
 # It gets a list of values and returns a list of pairs of the type <value, count>
 def convert_sequence(sequence):
@@ -117,7 +112,6 @@ def convert_sequence(sequence):
 
     return output_list
 
-
 # From list of pairs to list of strings
 def from_pairs_to_strings(sequence):
     string_list = []
@@ -128,7 +122,6 @@ def from_pairs_to_strings(sequence):
         string_list.append(current_string)
 
     return string_list
-
 
 # From list of strings to dictionary
 def from_list_to_dictionary(string_list, start=0):
@@ -149,7 +142,6 @@ def from_list_to_dictionary(string_list, start=0):
 
     return dictionary
 
-
 # Term frequency function
 def term_frequency(X, len_dictionary=20000):
   term_frequency_matrix = []
@@ -165,7 +157,6 @@ def term_frequency(X, len_dictionary=20000):
 
   return term_frequency_matrix
 
-
 # Function used for reweight a probability distribution
 def reweight_distribution(original, temperature=0.3):
     dist = np.asarray(original).astype('float64')
@@ -175,7 +166,6 @@ def reweight_distribution(original, temperature=0.3):
     dist = np.random.multinomial(1, dist[0])
     return dist
 
-
 # Check if a file is one of those of the selected games
 def is_present(file_name, search_list=label_lists):
     present = False
@@ -183,7 +173,6 @@ def is_present(file_name, search_list=label_lists):
         if name in file_name:
             present = True
     return present
-
 
 # Function used to assign a label with respect to the file name
 def assign_label(file_name):
@@ -198,7 +187,6 @@ def assign_label(file_name):
         return 3
     elif is_present(file_name, puzzle):
         return 4
-
 
 # Function used for loading the classifier training and test set
 def load_clf_data_kfold(sample_len, fs, k=10):
@@ -283,7 +271,6 @@ def load_clf_data_kfold(sample_len, fs, k=10):
     return folds_X, folds_y, chord_dict
     # return x_train, x_test, y_train, y_test, chord_dict
 
-
 # Function used for loading the classifier training and test set
 def load_clf_data(sample_len, fs):
 
@@ -363,7 +350,6 @@ def load_clf_data(sample_len, fs):
     np.save(chord_dict_clf_path, chord_dict)  # Saving the dictionary
 
     return x_train, x_test, y_train, y_test, chord_dict
-
 
 # Function used for loading the dataset form midi files
 def load_data(fix_len=25, instrument=1, fs=50, convert=True, complete_partition=False, attention=False, legay=False):
@@ -447,7 +433,6 @@ def load_data(fix_len=25, instrument=1, fs=50, convert=True, complete_partition=
 
     return x_train, x_test, y_train, y_test, feed_shape
 
-
 # This function generate a midi file from the given piano midi
 def from_piano_roll_to_midi(piano_roll, dictionary, fs, single_column=False, legacy=False, path='generated.midi'):
 
@@ -522,7 +507,6 @@ def from_piano_roll_to_midi(piano_roll, dictionary, fs, single_column=False, leg
 
     # Generating a midi file
     midi_file.write(path)
-
 
 # This function is used for generating the core new song
 def generate_piano_roll(model, example, gen_len=250, single_column=False, attention=False, attention_factor=1):
@@ -616,3 +600,14 @@ def generate_piano_roll(model, example, gen_len=250, single_column=False, attent
 
     return to_return, original_song
 
+#this function is used for the features engineering, it allows 3 kind of extraction types:
+# 1) standard -> split the piano roll in len(piano_roll)//sample_len parts and get the sample_len roll for each parts
+# 2) full-standard -> since the standard part will cut the last piece of piano_roll here we include them
+# 3) walk-forward -> we move of one time-frame for cycle and took the window of sample_len next elements
+def extract_features(piano_roll, sample_len, extraction_type="standard"):
+    if extraction_type == "standard":
+        pass
+    elif extraction_type == "walk-forward":
+        pass
+    elif extraction_type == "full-standard":
+        pass
