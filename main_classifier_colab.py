@@ -1,5 +1,3 @@
-#import transformer_classifier as tc
-#import utils
 from .transformer_classifier_colab import TransformerClassifier
 from .utils import *
 import numpy as np

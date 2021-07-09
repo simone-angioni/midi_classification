@@ -254,6 +254,8 @@ def load_clf_data_kfold(sample_len, fs, k=10, feature_extraction = "standard"):
             #     curr_y.append(curr_label)
 
         # Converting into arrays the data
+        print(np.array(curr_X))
+        print(np.array(curr_y))
         curr_X, curr_y = np.array(curr_X), np.array(curr_y)
         # print(curr_X.shape)
         # curr_X = term_frequency(curr_X)
@@ -630,9 +632,11 @@ def full_standard_feature_engineering(piano_roll, sample_len, file):
         curr_X.append(curr_sample)
         curr_y.append(curr_label)
         #print(i, curr_sample)
-    if len(piano_roll) % sample_len != 0:
+    if len(piano_roll) % sample_len != 0 and not len(piano_roll) < 50:
         last_sample = piano_roll[-(sample_len + 1):-1]
         last_label = assign_label(file)
+        if len(last_sample) < 50:
+            print(file)
         curr_X.append(last_sample)
         curr_y.append(last_label)
     return curr_X, curr_y
