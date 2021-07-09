@@ -43,6 +43,7 @@ for k in range(num_folds):
     model.fit(x_train, x_test, y_train, y_test)
     accuracies.append(model.model.evaluate(x_test, y_test))
 
+print("test")
 logging.warning(accuracies)
 
 # Choosing whether training or testing the model
