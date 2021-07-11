@@ -635,10 +635,9 @@ def full_standard_feature_engineering(piano_roll, sample_len, file):
     if len(piano_roll) % sample_len != 0 and not len(piano_roll) < 50:
         last_sample = piano_roll[-(sample_len + 1):-1]
         last_label = assign_label(file)
-        if len(last_sample) < 50:
-            print(file)
-        curr_X.append(last_sample)
-        curr_y.append(last_label)
+        if not len(last_sample) < sample_len:
+            curr_X.append(last_sample)
+            curr_y.append(last_label)
     return curr_X, curr_y
 
 #this function is used for the features engineering, it allows 3 kind of extraction types:
