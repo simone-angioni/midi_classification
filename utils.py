@@ -254,8 +254,8 @@ def load_clf_data_kfold(sample_len, fs, k=10, feature_extraction = "standard"):
             #     curr_y.append(curr_label)
 
         # Converting into arrays the data
-        print(np.array(curr_X))
-        print(np.array(curr_y))
+        # print(np.array(curr_X))
+        # print(np.array(curr_y))
         curr_X, curr_y = np.array(curr_X), np.array(curr_y)
         # print(curr_X.shape)
         # curr_X = term_frequency(curr_X)
