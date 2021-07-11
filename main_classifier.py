@@ -3,16 +3,16 @@ from utils import *
 import tensorflow as tf
 import logging
 
-def classify(feature_engineering_techniques, log_name):
+def classify(feature_engineering_techniques, sample_len, log_name):
     logging.basicConfig(filename=f'{base_dir}/results/{log_name}.log',format='%(asctime)s : %(message)s')
     try:
         physical_devices = tf.config.list_physical_devices('GPU')
         tf.config.experimental.set_memory_growth(physical_devices[0], enable=True)
     except Exception as e:
         pass
-
+    
     num_folds = 10
-    fs, initial_attention = 50, 50
+    fs, initial_attention = 50, sample_len
     folds_X, folds_y, dict1 = load_clf_data_kfold(sample_len=initial_attention, fs=fs, feature_extraction=feature_engineering_techniques)
     feed_shape = folds_X[0][0].shape
     # print(feed_shape)
