@@ -52,8 +52,8 @@ def classify(feature_engineering_techniques, time_frame, sample_len, log_name):
     avg_metrics['used_strategy'] = feature_engineering_techniques
     avg_metrics['time_frame'] = time_frame
     avg_metrics['feature_size'] = fs
-    avg_metrics['avg_loss'] = sum([l[0] for l in metrics])/len(metrics) if not metrics == 0 else 0
-    avg_metrics['avg_accuracy'] = sum([l[1] for l in metrics])/len(metrics) if not metrics == 0 else 0
+    avg_metrics['avg_loss'] = sum([l[0] for l in accuracies])/len(accuracies) if not len(accuracies) == 0 else 0
+    avg_metrics['avg_accuracy'] = sum([l[1] for l in accuracies])/len(accuracies) if not len(accuracies) == 0 else 0
     with open(f'{base_dir}/results/{log_name}.json', "w") as f:
         json.dump(avg_metrics, f)
     logging.warning(accuracies)
