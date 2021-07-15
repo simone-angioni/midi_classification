@@ -26,8 +26,8 @@ with open(os.path.join(base_dir,"lists/sport.json"), "r") as fp:
     sport = json.load(fp)
 with open(os.path.join(base_dir,"lists/shooting.json"), "r") as fp:
     shooting = json.load(fp)
-with open(os.path.join(base_dir,"lists/gen_list.json"), "r") as fp:
-    gen_list = json.load(fp)
+# with open(os.path.join(base_dir,"lists/gen_list.json"), "r") as fp:
+#     gen_list = json.load(fp)
 
 label_lists = adventure + fighting + puzzle + sport + shooting
 
@@ -357,7 +357,7 @@ def load_clf_data(sample_len, fs):
     return x_train, x_test, y_train, y_test, chord_dict
 
 # Function used for loading the dataset form midi files
-def load_data(fix_len=25, instrument=1, fs=50, convert=True, complete_partition=False, attention=False, legay=False):
+# def load_data(fix_len=25, instrument=1, fs=50, convert=True, complete_partition=False, attention=False, legay=False):
 
     samples = []
     labels = []

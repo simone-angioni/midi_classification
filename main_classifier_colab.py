@@ -3,6 +3,7 @@ from .utils import *
 import numpy as np
 import tensorflow as tf
 import logging
+import json
 
 def classify(feature_engineering_techniques, time_frame, sample_len, log_name):
     logging.basicConfig(filename=f'{base_dir}/results/{log_name}.log',format='%(asctime)s : %(message)s')
@@ -47,6 +48,13 @@ def classify(feature_engineering_techniques, time_frame, sample_len, log_name):
         accuracies.append(metrics)
         logging.warning(f"> Accuracy on k: {k} are: {metrics}")
 
+    avg_metrics = {}
+    avg_metrics['time_frame'] = time_frame
+    avg_metrics['feature_size'] = fs
+    avg_metrics['avg_loss'] = sum([l[0] for l in metrics])/len(metrics) if not metrics == 0 else 0
+    avg_metrics['avg_accuracy'] = sum([l[1] for l in metrics])/len(metrics) if not metrics == 0 else 0
+    with open(f'{base_dir}/results/{log_name}.json', "w") as f:
+        json.dump(avg_metrics, f)
     logging.warning(accuracies)
 
 # Choosing whether training or testing the model
