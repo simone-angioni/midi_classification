@@ -49,6 +49,7 @@ def classify(feature_engineering_techniques, time_frame, sample_len, log_name):
         logging.warning(f"> Accuracy on k: {k} are: {metrics}")
 
     avg_metrics = {}
+    avg_metrics['used_strategy'] = feature_engineering_techniques
     avg_metrics['time_frame'] = time_frame
     avg_metrics['feature_size'] = fs
     avg_metrics['avg_loss'] = sum([l[0] for l in metrics])/len(metrics) if not metrics == 0 else 0
