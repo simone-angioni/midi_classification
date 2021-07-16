@@ -4,6 +4,7 @@ import numpy as np
 import tensorflow as tf
 import logging
 import json
+import pandas as pd
 
 def classify(feature_engineering_techniques, time_frame, sample_len, log_name):
     logging.basicConfig(filename=f'{base_dir}/results/{log_name}.log',format='%(asctime)s : %(message)s')
@@ -41,8 +42,11 @@ def classify(feature_engineering_techniques, time_frame, sample_len, log_name):
 
         # x_train = np.concatenate((folds_X[0], folds_X[1], folds_X[2], folds_X[3], folds_X[4], folds_X[5]), axis=0)
         # y_train = np.concatenate((folds_y[0], folds_y[1], folds_y[2], folds_y[3], folds_y[4], folds_y[5]), axis=0)
-
-        model = TransformerClassifier(feed_shape, vocabulary_size=12050)
+        if time_frame % sample_len == 0:
+            max_size = 12050
+        else:
+            max_size = max(pd.DataFrame(x_train).max().max(), pd.DataFrame(x_test).max().max())
+        model = TransformerClassifier(feed_shape, vocabulary_size=max_size, maxlen=max_size)
         model.fit(x_train, x_test, y_train, y_test)
         metrics = model.model.evaluate(x_test, y_test)
         accuracies.append(metrics)
