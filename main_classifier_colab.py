@@ -45,7 +45,7 @@ def classify(feature_engineering_techniques, time_frame, sample_len, log_name):
         if time_frame % sample_len == 0:
             max_size = 12050
         else:
-            max_size = max(pd.DataFrame(x_train).max().max(), pd.DataFrame(x_test).max().max())
+            max_size = max(pd.DataFrame(x_train).max().max(), pd.DataFrame(x_test).max().max())+1
         model = TransformerClassifier(feed_shape, vocabulary_size=max_size, maxlen=max_size)
         model.fit(x_train, x_test, y_train, y_test)
         metrics = model.model.evaluate(x_test, y_test)
