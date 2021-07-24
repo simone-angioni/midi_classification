@@ -189,7 +189,7 @@ def assign_label(file_name):
         return 4
 
 # Function used for loading the classifier training and test set
-def load_clf_data_kfold(sample_len, fs, k=10, feature_extraction = "standard"):
+def load_clf_data_kfold(sample_len, fs, k=10, feature_extraction = "standard", shuffle=False):
 
     # Declaring test and train sets
     folds_X, folds_y = [], []
@@ -207,8 +207,8 @@ def load_clf_data_kfold(sample_len, fs, k=10, feature_extraction = "standard"):
         if is_present(file):
             file_list.append(file)
             label_distrib[assign_label(file)] += 1
-
-    #random.shuffle(file_list)
+    if shuffle:
+        random.shuffle(file_list)
     print(len(file_list))
     print(label_distrib)
 

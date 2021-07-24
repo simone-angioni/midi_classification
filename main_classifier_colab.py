@@ -6,7 +6,7 @@ import logging
 import json
 import pandas as pd
 
-def classify(feature_engineering_techniques, time_frame, sample_len, log_name):
+def classify(feature_engineering_techniques, time_frame, sample_len, log_name, shuffle):
     logging.basicConfig(filename=f'{base_dir}/results/{log_name}.log',format='%(asctime)s : %(message)s')
     try:
         physical_devices = tf.config.list_physical_devices('GPU')
@@ -16,7 +16,10 @@ def classify(feature_engineering_techniques, time_frame, sample_len, log_name):
 
     num_folds = 10
     fs, initial_attention = time_frame, sample_len
-    folds_X, folds_y, dict1 = load_clf_data_kfold(sample_len=initial_attention, fs=fs, feature_extraction=feature_engineering_techniques)
+    folds_X, folds_y, dict1 = load_clf_data_kfold(sample_len=initial_attention,
+                                                  fs=fs,
+                                                  feature_extraction=feature_engineering_techniques,
+                                                  shuffle=shuffle)
     feed_shape = folds_X[0][0].shape
     # print(feed_shape)
     # feed_shape = feed_shape[1]
@@ -55,7 +58,7 @@ def classify(feature_engineering_techniques, time_frame, sample_len, log_name):
     avg_metrics = {}
     avg_metrics['used_strategy'] = feature_engineering_techniques
     avg_metrics['time_frame'] = time_frame
-    avg_metrics['feature_size'] = fs
+    avg_metrics['feature_size'] = sample_len
     avg_metrics['avg_loss'] = sum([l[0] for l in accuracies])/len(accuracies) if not len(accuracies) == 0 else 0
     avg_metrics['avg_accuracy'] = sum([l[1] for l in accuracies])/len(accuracies) if not len(accuracies) == 0 else 0
     with open(f'{base_dir}/results/{log_name}.json', "w") as f:
