@@ -1,5 +1,6 @@
 __pycache__/*
-*.pyc
-*.pyc
+**.pyc
 lists/.DS_Store
 midi_classification.code-workspace
+**.json
+results/
