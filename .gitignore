@@ -4,3 +4,4 @@ lists/.DS_Store
 midi_classification.code-workspace
 **.json
 results/
+__pycache__/utils.cpython-38.pyc
