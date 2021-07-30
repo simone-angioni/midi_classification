@@ -189,7 +189,7 @@ def assign_label(file_name):
         return 4
 
 # Function used for loading the classifier training and test set
-def load_clf_data_kfold(sample_len, fs, k=10, feature_extraction = "standard", shuffle=False):
+def load_clf_data_kfold(feature_size, time_frame, k=10, feature_extraction = "standard", shuffle=False):
 
     # Declaring test and train sets
     folds_X, folds_y = [], []
@@ -209,8 +209,8 @@ def load_clf_data_kfold(sample_len, fs, k=10, feature_extraction = "standard", s
             label_distrib[assign_label(file)] += 1
     if shuffle:
         random.shuffle(file_list)
-    print(len(file_list))
-    print(label_distrib)
+    #print(len(file_list))
+    #print(label_distrib)
 
     fold_dim = int(len(file_list)/k)
     # print(file_list)
@@ -228,7 +228,7 @@ def load_clf_data_kfold(sample_len, fs, k=10, feature_extraction = "standard", s
         # Current fold X and y
         curr_X, curr_y = [], []
 
-        print('loading data file fold {}...'.format(j))
+        #print('loading data file fold {}...'.format(j))
         # Iteration over fold j
         for file in folds[j]:
 
@@ -237,14 +237,14 @@ def load_clf_data_kfold(sample_len, fs, k=10, feature_extraction = "standard", s
 
             # Computing each chord
             piano_roll = []
-            for elem in compress_piano_roll_matrix(midi_data, fs=fs):
+            for elem in compress_piano_roll_matrix(midi_data, fs=time_frame):
                 chord = str(elem[0])
                 if chord not in chord_dict:
                     chord_dict[chord] = len(chord_dict)
                 piano_roll.append(chord_dict[chord])
 
             # Adding each sample of the song to the training or test set
-            temp_X, temp_y = extract_features(piano_roll, sample_len, file, feature_extraction)
+            temp_X, temp_y = extract_features(piano_roll, feature_size, file, feature_extraction)
             curr_X.extend(temp_X)
             curr_y.extend(temp_y)
             # for i in range(int(len(piano_roll) / sample_len)):
@@ -266,7 +266,7 @@ def load_clf_data_kfold(sample_len, fs, k=10, feature_extraction = "standard", s
 
     np.save(chord_dict_clf_path, chord_dict)  # Saving the dictionary
 
-    print(len(folds_X))
+    #print(len(folds_X))
 
     # x_train = np.concatenate((folds_X[0], folds_X[1], folds_X[2], folds_X[3], folds_X[4], folds_X[5]), axis=0)
     # y_train = np.concatenate((folds_y[0], folds_y[1], folds_y[2], folds_y[3], folds_y[4], folds_y[5]), axis=0)
