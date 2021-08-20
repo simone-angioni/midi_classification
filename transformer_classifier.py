@@ -21,7 +21,7 @@ class TransformerClassifier:
   def __init__(self, input_shape, vocabulary_size, maxlen=12050):
     # opt = tf.keras.optimizers.Adam(learning_rate=0.000001)
     opt = tf.keras.optimizers.Adam(learning_rate=0.000001)
-    vocabulary_size = 12050
+    vocabulary_size = vocabulary_size
     latent_dim = 128
     num_classes = 5
 
@@ -59,7 +59,7 @@ class TransformerClassifier:
   def fit(self, x_train, x_test, y_train, y_test):
 
     history = self.model.fit(x_train, y_train, batch_size=256,
-                             epochs=30,
+                             epochs=100,
                              validation_data=(x_test, y_test))
 
     # plt.plot(history.history['loss'])
