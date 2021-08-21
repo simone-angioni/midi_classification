@@ -15,8 +15,8 @@ def classify(feature_engineering_techniques, time_frame, sample_len, log_name, s
 
     num_folds = 10
     fs, initial_attention = time_frame, sample_len
-    folds_X, folds_y, dict1 = load_clf_data_kfold(sample_len=initial_attention,
-                                                  fs=fs,
+    folds_X, folds_y, dict1 = load_clf_data_kfold(feature_size=initial_attention,
+                                                  time_frame=fs,
                                                   feature_extraction=feature_engineering_techniques,
                                                   shuffle=shuffle)
     feed_shape = folds_X[0][0].shape
