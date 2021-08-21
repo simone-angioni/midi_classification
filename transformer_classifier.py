@@ -59,7 +59,7 @@ class TransformerClassifier:
   def fit(self, x_train, x_test, y_train, y_test):
 
     history = self.model.fit(x_train, y_train, batch_size=256,
-                             epochs=100,
+                             epochs=30,
                              validation_data=(x_test, y_test))
 
     # plt.plot(history.history['loss'])
