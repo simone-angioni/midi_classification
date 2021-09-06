@@ -23,26 +23,26 @@ class TransformerClassifier:
     opt = tf.keras.optimizers.Adam(learning_rate=0.000001)
     vocabulary_size = vocabulary_size
     latent_dim = 128
-    num_classes = 5
-
-    # input = layers.Input(shape=input_shape, name='input')
-    # x = layers.Embedding(vocabulary_size + 1, latent_dim, name='embed')(input)
-    # x = layers.LSTM(64, return_sequences=True)(x)
-    # x = layers.Dropout(0.2)(x)
-    # x = layers.LSTM(64, return_sequences=False)(x)
-    # x = layers.Dropout(0.2)(x)
-    # output = layers.Dense(num_classes, activation='softmax', name='output')(x)
+    num_classes = 3
 
     input = layers.Input(shape=input_shape, name='input')
-    embedding_layer = TokenAndPositionEmbedding(maxlen, vocabulary_size, latent_dim)
-    x = embedding_layer(input)
-    transformer_block = TransformerBlock(latent_dim, num_heads=3, ff_dim=64)
-    x = transformer_block(x)
-    x = layers.GlobalAveragePooling1D()(x)
+    x = layers.Embedding(vocabulary_size + 1, latent_dim, name='embed')(input)
+    x = layers.LSTM(64, return_sequences=True)(x)
     x = layers.Dropout(0.2)(x)
-    x = layers.Dense(32, activation="relu")(x)
+    x = layers.LSTM(64, return_sequences=False)(x)
     x = layers.Dropout(0.2)(x)
-    output = layers.Dense(num_classes, activation="softmax", name='output')(x)
+    output = layers.Dense(num_classes, activation='softmax', name='output')(x)
+
+    # input = layers.Input(shape=input_shape, name='input')
+    # embedding_layer = TokenAndPositionEmbedding(maxlen, vocabulary_size, latent_dim)
+    # x = embedding_layer(input)
+    # transformer_block = TransformerBlock(latent_dim, num_heads=3, ff_dim=64)
+    # x = transformer_block(x)
+    # x = layers.GlobalAveragePooling1D()(x)
+    # x = layers.Dropout(0.2)(x)
+    # x = layers.Dense(32, activation="relu")(x)
+    # x = layers.Dropout(0.2)(x)
+    # output = layers.Dense(num_classes, activation="softmax", name='output')(x)
 
     # Creating and compiling the model
     self.loss = "sparse_categorical_crossentropy"
@@ -59,7 +59,7 @@ class TransformerClassifier:
   def fit(self, x_train, x_test, y_train, y_test):
 
     history = self.model.fit(x_train, y_train, batch_size=256,
-                             epochs=30,
+                             epochs=100,
                              validation_data=(x_test, y_test))
 
     # plt.plot(history.history['loss'])

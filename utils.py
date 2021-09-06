@@ -16,21 +16,22 @@ chord_dict_clf_path = os.path.join(base_dir,'dictionaries/chord_dict_clf.npy')
 note_dict_path = os.path.join(base_dir,'dictionaries/note_dict.npy')
 key_dict_path = os.path.join(base_dir,'dictionaries/key_dict.npy')
 
-with open(os.path.join(base_dir,"lists/adventure.json"), "r") as fp:
-    adventure = json.load(fp)
-with open(os.path.join(base_dir,"lists/fighting.json"), "r") as fp:
-    fighting = json.load(fp)
-with open(os.path.join(base_dir,"lists/puzzle.json"), "r") as fp:
-    puzzle = json.load(fp)
-with open(os.path.join(base_dir,"lists/sport.json"), "r") as fp:
-    sport = json.load(fp)
-with open(os.path.join(base_dir,"lists/shooting.json"), "r") as fp:
-    shooting = json.load(fp)
-# with open(os.path.join(base_dir,"lists/gen_list.json"), "r") as fp:
-#     gen_list = json.load(fp)
+# with open(os.path.join(base_dir,"lists/adventure.json"), "r") as fp:
+#     adventure = json.load(fp)
+# with open(os.path.join(base_dir,"lists/fighting.json"), "r") as fp:
+#     fighting = json.load(fp)
+# with open(os.path.join(base_dir,"lists/puzzle.json"), "r") as fp:
+#     puzzle = json.load(fp)
+# with open(os.path.join(base_dir,"lists/sport.json"), "r") as fp:
+#     sport = json.load(fp)
+# with open(os.path.join(base_dir,"lists/shooting.json"), "r") as fp:
+#     shooting = json.load(fp)
+# # with open(os.path.join(base_dir,"lists/gen_list.json"), "r") as fp:
+# #     gen_list = json.load(fp)
 
-label_lists = adventure + fighting + puzzle + sport + shooting
+# label_lists = adventure + fighting + puzzle + sport + shooting
 
+label_lists = ['beethoven', 'alvanez', 'mozart']
 # Function used for loading both the dictionaries
 def load_dictionaries():
 
@@ -176,17 +177,23 @@ def is_present(file_name, search_list=label_lists):
 
 # Function used to assign a label with respect to the file name
 def assign_label(file_name):
-
-    if is_present(file_name, adventure):
+    if 'mozart' in file_name:
         return 0
-    elif is_present(file_name, sport):
+    if 'beethoven' in file_name:
         return 1
-    elif is_present(file_name, fighting):
+    if 'alvanez' in file_name:
         return 2
-    elif is_present(file_name, shooting):
-        return 3
-    elif is_present(file_name, puzzle):
-        return 4
+    # TO UNCOMMENT WHEN CHANGING DB
+    # if is_present(file_name, adventure):
+    #     return 0
+    # elif is_present(file_name, sport):
+    #     return 1
+    # elif is_present(file_name, fighting):
+    #     return 2
+    # elif is_present(file_name, shooting):
+    #     return 3
+    # elif is_present(file_name, puzzle):
+    #     return 4
 
 # Function used for loading the classifier training and test set
 def load_clf_data_kfold(feature_size, time_frame, k=10, feature_extraction = "standard", shuffle=False):

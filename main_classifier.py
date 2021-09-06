@@ -34,18 +34,19 @@ def classify(feature_engineering_techniques, time_frame, sample_len, log_name, s
         y_train = folds_y[0]
         for i in range(num_folds):
             print(i)
-            if i is 0 and k is 0:
+            if i == 0 and k == 0:
                 i += 1
                 x_train = folds_X[1]
                 y_train = folds_y[1]
-            elif i is not k:
+            elif i != k:
                 x_train = np.concatenate((x_train, folds_X[i]), axis=0)
                 y_train = np.concatenate((y_train, folds_y[i]), axis=0)
 
         # x_train = np.concatenate((folds_X[0], folds_X[1], folds_X[2], folds_X[3], folds_X[4], folds_X[5]), axis=0)
         # y_train = np.concatenate((folds_y[0], folds_y[1], folds_y[2], folds_y[3], folds_y[4], folds_y[5]), axis=0)
         if time_frame % sample_len == 0:
-            max_size = 12050
+            #max_size = 12050
+            max_size = max(pd.DataFrame(x_train).max().max(), pd.DataFrame(x_test).max().max())+1
         else:
             max_size = max(pd.DataFrame(x_train).max().max(), pd.DataFrame(x_test).max().max())+1
         model = TransformerClassifier(feed_shape, vocabulary_size=max_size, maxlen=max_size)
